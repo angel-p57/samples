@@ -1,8 +1,9 @@
 #include "rtest.h"
+#include <stdbool.h>
 #include <math.h>
 
 static pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER;
-static int doquit=0;
+static bool doquit=false;
 
 void *tmain(void *param) {
   struct tparam *tp=param;
@@ -21,5 +22,5 @@ void *tmain(void *param) {
 void twait(int sec) {
   struct timespec ts={.tv_sec=sec,.tv_nsec=0 };
   nanosleep(&ts,NULL);
-  doquit=1;
+  doquit=true;
 }

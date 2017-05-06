@@ -1,15 +1,16 @@
 #include "rtest.h"
+#include <stdbool.h>
 #include <math.h>
 
 static pthread_mutex_t mutex=PTHREAD_MUTEX_INITIALIZER;
-static int doquit=0;
+static bool doquit=false;
 
 void *tmain(void *param) {
   struct tparam *tp=param;
   int64_t count=0,i=0;
 
   for (;;) {
-    int dobreak;
+    bool dobreak;
     pthread_mutex_lock(&mutex);
     dobreak=doquit;
     pthread_mutex_unlock(&mutex);
@@ -29,6 +30,6 @@ void twait(int sec) {
   struct timespec ts={.tv_sec=sec,.tv_nsec=0 };
   nanosleep(&ts,NULL);
   pthread_mutex_lock(&mutex);
-  doquit=1;
+  doquit=true;
   pthread_mutex_unlock(&mutex);
 }
